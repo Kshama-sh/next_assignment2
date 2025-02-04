@@ -1,0 +1,11 @@
+{
+    "posts": [
+      {
+        "id": 1,
+        "title": "Getting Started with Next.js",
+        "author": "John Doe",
+        "content": "Next.js is an amazing React framework for building web applications...",
+        "createdAt": "2024-02-04T10:00:00Z"
+      }
+    ]
+  }
