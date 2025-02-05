@@ -1,42 +1,42 @@
-"use client"
-import { useState } from 'react'
-import { useRouter } from 'next/router'
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-const BlogForm: React.FC = () => {
-  const [formData, setFormData] = useState({ title: '', author: '', content: '' })
-  const [error, setError] = useState('')
-  const router = useRouter()
+export default function BlogForm() {
+  const [formData, setFormData] = useState({ title: "", author: "", content: "" });
+  const [error, setError] = useState("");
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
-    }))
-  }
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError('')
+    e.preventDefault();
+    setError("");
 
     try {
-      const response = await fetch('/api/posts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/posts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
-      })
+      });
 
       if (response.ok) {
-        const newPost = await response.json()
-        router.push(`/posts/${newPost.id}`)
+        const newPost = await response.json();
+        router.push(`/posts/${newPost.id}`); 
       } else {
-        const errorData = await response.json()
-        setError(errorData.error || 'Something went wrong')
+        const errorData = await response.json();
+        setError(errorData.error || "Something went wrong");
       }
     } catch (err) {
-      setError('Something went wrong')
+      setError("Something went wrong");
     }
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto">
@@ -48,7 +48,7 @@ const BlogForm: React.FC = () => {
           name="title"
           value={formData.title}
           onChange={handleChange}
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded text-black"
           required
         />
       </div>
@@ -59,7 +59,7 @@ const BlogForm: React.FC = () => {
           name="author"
           value={formData.author}
           onChange={handleChange}
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded text-black"
           required
         />
       </div>
@@ -69,19 +69,14 @@ const BlogForm: React.FC = () => {
           name="content"
           value={formData.content}
           onChange={handleChange}
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded text-black"
           rows={6}
           required
         />
       </div>
-      <button 
-        type="submit" 
-        className="bg-green-500 text-white px-4 py-2 rounded"
-      >
+      <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded">
         Create Post
       </button>
     </form>
-  )
+  );
 }
-
-export default BlogForm 
